@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include <time.h>
-#include "SevSeg.h"
 #include <string>
+
+#include "SevSeg.h"
 
 // pinn defintions
 #define BLUE_LED_PIN 4
@@ -59,7 +60,6 @@ void setup() {
   pinMode(BUTTON_RESET_PIN, INPUT_PULLDOWN);
 
   set_state_init();
-
 
   // initialize all interput functions   
   attachInterrupt(digitalPinToInterrupt(BUTTON_LEAVER_PIN), start_timer, RISING);
@@ -121,7 +121,7 @@ void set_state_error(){
   Serial.print("State set to \"Error\"  \n");
   sevseg.setChars("ERR.");
   all_lights_off();
-  digitalWrite(led_pins[3],HIGH);
+  digitalWrite(led_pins[3], HIGH);
 }
 
 void set_state_ready(){
@@ -129,7 +129,7 @@ void set_state_ready(){
   Serial.print("State set to \"Ready\"  \n");
   sevseg.setChars("READY");
   all_lights_off();
-  digitalWrite(led_pins[1],HIGH);
+  digitalWrite(led_pins[1], HIGH);
 }
 
 void set_state_init(){
@@ -137,7 +137,7 @@ void set_state_init(){
   Serial.print("State set to \"Init\"  \n");
   sevseg.setChars("INIT");
   all_lights_off();
-  digitalWrite(led_pins[0],HIGH);
+  digitalWrite(led_pins[0], HIGH);
 }
 
 void set_state_start(){
@@ -145,7 +145,7 @@ void set_state_start(){
   Serial.print("State set to \"Start\"  \n");
   sevseg.setChars("STAR");
   all_lights_off();
-  digitalWrite(led_pins[2],HIGH);
+  digitalWrite(led_pins[2], HIGH);
 }
 
 void set_state_stop(){
@@ -153,7 +153,7 @@ void set_state_stop(){
   Serial.print("State set to \"Stop\"  \n");
   sevseg.setChars("STOP");
   all_lights_off();
-  digitalWrite(led_pins[1],HIGH);
+  digitalWrite(led_pins[1], HIGH);
 }
 
 void set_state_reset(){
