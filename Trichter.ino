@@ -21,8 +21,8 @@ enum state { Init, Ready, Start, Stop, End, Error, Reset};
 // global variables
 state current_state;
 SevSeg sevseg; // 4 Seven Segment displays
-int led_pins[] = {YELLOW_LED_PIN, GREEN_LED_PIN, BLUE_LED_PIN, RED_LED_PIN};
-int pin_count = 4;
+const int led_pins[] = {YELLOW_LED_PIN, GREEN_LED_PIN, BLUE_LED_PIN, RED_LED_PIN};
+const int pin_count = 4;
 
 unsigned long start;
 unsigned long end;
@@ -47,8 +47,6 @@ void set_state_reset();
 
 void setup() {
 
-  set_state_init();
-
   Serial.begin(115200);
 
   // initalize all pins
@@ -59,6 +57,9 @@ void setup() {
   
   pinMode(BUTTON_LEAVER_PIN, INPUT_PULLDOWN);
   pinMode(BUTTON_RESET_PIN, INPUT_PULLDOWN);
+
+  set_state_init();
+
 
   // initialize all interput functions   
   attachInterrupt(digitalPinToInterrupt(BUTTON_LEAVER_PIN), start_timer, RISING);
