@@ -17,10 +17,13 @@
 
 
 enum state { Init, Ready, Start, Stop, End, Error, Reset};
-
+ 
 // global variables
 state current_state;
 SevSeg sevseg; // 4 Seven Segment displays
+int led_pins[] = {YELLOW_LED_PIN, GREEN_LED_PIN, BLUE_LED_PIN, RED_LED_PIN};
+int pin_count = 4;
+
 unsigned long start;
 unsigned long end;
 unsigned long duration;
@@ -31,6 +34,8 @@ void start_timer();
 void stop_timer();
 
 void reset();
+
+void set_all_lights_off();
 
 void set_state_error();
 void set_state_ready();
@@ -94,14 +99,19 @@ void stop_timer(){
   duration = millis() - start;
   duration_float = float(duration)/1000.0;
   sevseg.setNumberF(duration_float, 2);
-
 }
 
 void reset(){
   set_state_reset();
   Serial.print("Reseting Microcontroller!");
   delay(100);
-  // ESP.restart();
+  ESP.restart();
+}
+
+void all_lights_off(){
+  for (int i = 0; i <= pin_count; i++){
+    digitalWrite(led_pins[i], LOW);
+  }
 }
 
 // state machine switching functions
@@ -109,34 +119,46 @@ void set_state_error(){
   current_state = Error;
   Serial.print("State set to \"Error\"  \n");
   sevseg.setChars("ERR.");
+  all_lights_off();
+  digitalWrite(led_pins[3],HIGH);
 }
 
 void set_state_ready(){
   current_state = Ready;
   Serial.print("State set to \"Ready\"  \n");
-  sevseg.setChars("REA.");
+  sevseg.setChars("READY");
+  all_lights_off();
+  digitalWrite(led_pins[1],HIGH);
 }
 
 void set_state_init(){
   current_state = Init;
   Serial.print("State set to \"Init\"  \n");
   sevseg.setChars("INIT");
+  all_lights_off();
+  digitalWrite(led_pins[0],HIGH);
 }
 
 void set_state_start(){
   current_state = Start;
   Serial.print("State set to \"Start\"  \n");
-  sevseg.setChars("STA.");
+  sevseg.setChars("STAR");
+  all_lights_off();
+  digitalWrite(led_pins[2],HIGH);
 }
 
 void set_state_stop(){
   current_state = Stop;
   Serial.print("State set to \"Stop\"  \n");
   sevseg.setChars("STOP");
+  all_lights_off();
+  digitalWrite(led_pins[1],HIGH);
 }
 
 void set_state_reset(){
   current_state = Reset;
   Serial.print("State set to \"Reset\"  \n");
   sevseg.setChars("RES.");
+  all_lights_off();
+  reset();
 }
